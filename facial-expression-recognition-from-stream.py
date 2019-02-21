@@ -17,6 +17,7 @@ model.load_weights('model/facial_expression_model_weights.h5') #load weights
 #-----------------------------
 
 emotions = ('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')
+emoji = cv2.imread('happy_emoji.png')
 
 while(True):
 	ret, img = cap.read()
@@ -49,8 +50,12 @@ while(True):
 		
 		#write emotion text above rectangle
 		cv2.putText(img, emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
-		for i in range(1000000):
-			pass
+		emoji_scale = cv2.resize(emoji, (w,h))
+		
+		img[x:x+w, y:y+h] = img[x:x+w, y:y+h]+emoji_scale
+		
+		# for i in range(1000000):
+		# 	pass
 		#process on detected face end
 		#-------------------------
 
