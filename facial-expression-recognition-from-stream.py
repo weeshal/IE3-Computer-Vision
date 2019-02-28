@@ -26,9 +26,10 @@ while(True):
 	gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
 	faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-
+	emojis = [0]*len(faces)
+	emoji_scale = [0]*len(faces)
 	#print(faces) #locations of detected faces
-
+	ind = 0
 	for (x,y,w,h) in faces:
 		cv2.rectangle(img,(x,y),(x+w,y+h),(255,0,0),2) #draw rectangle to main image
 		
@@ -48,32 +49,32 @@ while(True):
 		emotion = emotions[max_index]
 		
 		if max_index == 0:
-			emoji = cv2.imread('angry_emoji.png')
+			emojis[ind] = cv2.imread('angry_emoji.png')
 		elif max_index == 1:
-			emoji = cv2.imread('disgust_emoji.png')
+			emojis[ind] = cv2.imread('disgust_emoji.png')
 		elif max_index == 2:
-			emoji = cv2.imread('fear_emoji.png')
+			emojis[ind] = cv2.imread('fear_emoji.png')
 		elif max_index == 3:
-			emoji = cv2.imread('happy_emoji.png')
+			emojis[ind] = cv2.imread('happy_emoji.png')
 		elif max_index == 4:
-			emoji = cv2.imread('sad_emoji.png')
+			emojis[ind] = cv2.imread('sad_emoji.png')
 		elif max_index == 5:
-			emoji = cv2.imread('surprise_emoji.png')
+			emojis[ind] = cv2.imread('surprise_emoji.png')
 		elif max_index == 6:
-			emoji = cv2.imread('neutral_emoji.png')
+			emojis[ind] = cv2.imread('neutral_emoji.png')
 
 		#write emotion text above rectangle
 		cv2.putText(img, emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
-		emoji_scale = cv2.resize(emoji, (int(w/2),int(h/2)))
+		emoji_scale[ind] = cv2.resize(emojis[ind], (int(w/2),int(h/2)))
 		
-		img[x:x+int(w/2), y:y+int(h/2)] = emoji_scale
+		img[x:x+int(w/2), y:y+int(h/2)] = emoji_scale[ind]
 		#img[x:x+int(w/2), y:y+int(h/2)]+
 		
 		for i in range(1000000):
 			pass
 		#process on detected face end
 		#-------------------------
-
+		ind+=1
 	cv2.imshow('img',img)
 
 	if cv2.waitKey(1) & 0xFF == ord('q'): #press q to quit
