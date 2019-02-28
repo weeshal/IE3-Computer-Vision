@@ -17,7 +17,7 @@ model.load_weights('model/facial_expression_model_weights.h5') #load weights
 #-----------------------------
 
 emotions = ('angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral')
-emoji = cv2.imread('happy_emoji.png')
+emoji = None
 
 while(True):
 	ret, img = cap.read()
@@ -45,17 +45,32 @@ while(True):
 		
 		#find max indexed array 0: angry, 1:disgust, 2:fear, 3:happy, 4:sad, 5:surprise, 6:neutral
 		max_index = np.argmax(predictions[0])
-		
 		emotion = emotions[max_index]
 		
+		if max_index == 0:
+			emoji = cv2.imread('angry_emoji.png')
+		elif max_index == 1:
+			emoji = cv2.imread('disgust_emoji.png')
+		elif max_index == 2:
+			emoji = cv2.imread('fear_emoji.png')
+		elif max_index == 3:
+			emoji = cv2.imread('happy_emoji.png')
+		elif max_index == 4:
+			emoji = cv2.imread('sad_emoji.png')
+		elif max_index == 5:
+			emoji = cv2.imread('surprise_emoji.png')
+		elif max_index == 6:
+			emoji = cv2.imread('neutral_emoji.png')
+
 		#write emotion text above rectangle
 		cv2.putText(img, emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
-		emoji_scale = cv2.resize(emoji, (w,h))
+		emoji_scale = cv2.resize(emoji, (int(w/2),int(h/2)))
 		
-		img[x:x+w, y:y+h] = img[x:x+w, y:y+h]+emoji_scale
+		img[x:x+int(w/2), y:y+int(h/2)] = emoji_scale
+		#img[x:x+int(w/2), y:y+int(h/2)]+
 		
-		# for i in range(1000000):
-		# 	pass
+		for i in range(1000000):
+			pass
 		#process on detected face end
 		#-------------------------
 
