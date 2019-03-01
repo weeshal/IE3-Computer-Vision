@@ -67,10 +67,14 @@ while(True):
 		cv2.putText(img, emotion, (int(x), int(y)), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 2)
 		emoji_scale[ind] = cv2.resize(emojis[ind], (int(w/2),int(h/2)))
 		
-		img[x:x+int(w/2), y:y+int(h/2)] = emoji_scale[ind]
-		#img[x:x+int(w/2), y:y+int(h/2)]+
+		try:
+			img[y-30:y+int(h/2)-30,x+w:x+int(w/2)+w] = emoji_scale[ind]
+			#
+		except:
+			pass
 		
-		for i in range(1000000):
+		
+		for i in range(1000):
 			pass
 		#process on detected face end
 		#-------------------------
